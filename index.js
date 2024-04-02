@@ -23,7 +23,6 @@ app.use(session({
     saveUninitialized: false,
 }))
 
-dbInit();
 const router = express.Router()
 
 const registerTestRoute = require('./api/user/routes');
@@ -32,9 +31,13 @@ const registerTestRoute = require('./api/user/routes');
 app.use('/user', registerTestRoute)
 
 const PORT = variables.PORT;
-server.listen(PORT, ()=>{
-    console.log('server started on port ' + PORT);
-})
+
+dbInit(()=>{
+    server.listen(PORT, ()=>{
+        console.log('server started on port ' + PORT);
+    })
+});
+
 
 module.exports= {
     app:app,
